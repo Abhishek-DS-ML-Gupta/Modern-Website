@@ -110,6 +110,8 @@ const Navbar = () => {
 
   // Hamburger menu animation
   useEffect(() => {
+    if (!hamburgerMenuRef.current) return;
+    
     const bars = hamburgerMenuRef.current.children;
     
     if (isMenuOpen) {
@@ -323,8 +325,7 @@ const Navbar = () => {
                 ref={addToNavItemsRefs}
                 onClick={handleNavClick}
               >
-                {/* CHANGE: Point "about" to projects section */}
-                <a href={item === 'about' ? '#projects' : `#${item}`}>
+                <a href={`#${item}`}>
                   {item.charAt(0).toUpperCase() + item.slice(1)}
                 </a>
               </li>
