@@ -17,7 +17,7 @@ export default function CarScene() {
         height: "100%",
         zIndex: 0,
       }}
-      camera={{ position: [0, 2, 5], fov: 50 }}
+      camera={{ position: [0, 5, 5], fov: 50 }}
     >
       <ambientLight intensity={0.8} />
       <directionalLight position={[10, 10, 5]} intensity={1} />
