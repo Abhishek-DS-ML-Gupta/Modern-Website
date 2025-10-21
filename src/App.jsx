@@ -40,7 +40,7 @@ export default function App() {
 
       {currentSection === "skills" && (
         <div className="flex flex-1 items-center justify-center">
-          <div className="absolute top-20">
+          <div className="absolute top-30">
             <Shuffle
               text="Our Skills"
               shuffleDirection="right"
