@@ -56,7 +56,7 @@ export default function App() {
               className="text-gray-300"
             />
           </div>
-          <div className="w-full h-full flex">
+          <div className="w-full h-full flex top-80">
             <Skiper67 />
           </div>
         </div>
@@ -65,18 +65,6 @@ export default function App() {
 
       {currentSection === "about" && (
         <div className="flex flex-col">
-
-          <div>
-            {/* CurvedLoop animation below the about section */}
-            <CurvedLoop
-              marqueeText="Innovation ✦ Creativity ✦ Excellence ✦ Passion ✦ Design ✦"
-              speed={2}
-              curveAmount={400}
-              direction="left"
-              interactive={true}
-              className="text-gray-500"
-            />
-          </div>
           <div style={{ height: '600px', position: 'relative' }}>
             <CircularGallery bend={3} textColor="text-gray-300" borderRadius={0.05} scrollEase={0.02} />
           </div>
@@ -91,6 +79,19 @@ export default function App() {
           <div style={{ width: '100vw', height: '100vh' , marginTop: '200px' }}>
             <DomeGallery />
           </div>
+
+          <div>
+            {/* CurvedLoop animation below the about section */}
+            <CurvedLoop
+              marqueeText="Innovation ✦ Creativity ✦ Excellence ✦ Passion ✦ Design ✦"
+              speed={2}
+              curveAmount={400}
+              direction="left"
+              interactive={true}
+              className="text-gray-500"
+            />
+          </div>
+          
         </div>
       )}
     </div>
