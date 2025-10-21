@@ -188,7 +188,7 @@ const Navbar = () => {
           z-index: 2;
           top: 1.5rem;
           left: 1.5rem;
-          width: 120px;
+          width: 100px;
           height: auto;
         }
 
@@ -295,7 +295,7 @@ const Navbar = () => {
           .logo {
             top: 1rem;
             left: 1rem;
-            width: 100px;
+            width: 75px;
           }
         }
       `}</style>
