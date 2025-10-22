@@ -66,9 +66,9 @@ export default function App() {
       {currentSection === "about" && (
         <div className="flex flex-col">
           <div style={{ height: '600px', position: 'relative' }}>
-            <CircularGallery bend={3} textColor="text-gray-300" borderRadius={0.05} scrollEase={0.02} />
+            <CircularGallery bend={1.5} textColor="text-gray-300" borderRadius={0.05} scrollEase={0.02} />
           </div>
-          <div style={{ marginTop: '300px' }}>
+          <div style={{   paddingTop : '200px' }}>
             <ScrollVelocity
               texts={['React Bits', 'Scroll Down']}
               velocity={75}
