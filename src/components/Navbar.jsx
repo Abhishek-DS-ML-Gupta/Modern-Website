@@ -63,7 +63,10 @@ const Navbar = () => {
   };
 
   // Handle nav item click
-  const handleNavClick = () => {
+  const handleNavClick = (item, e) => {
+    e.preventDefault(); // Prevent default anchor behavior
+    
+    // Close the menu
     if (isMenuOpen) {
       setIsMenuOpen(false);
       gsap.to(overlayRef.current, {
@@ -72,6 +75,16 @@ const Navbar = () => {
         ease: 'power3.in'
       });
     }
+    
+    // Update URL hash for navigation
+    window.location.hash = `#${item}`;
+    
+    // Trigger hash change event manually (for App.jsx to detect)
+    const hashChangeEvent = new HashChangeEvent('hashchange', {
+      oldURL: window.location.href,
+      newURL: window.location.href.split('#')[0] + `#${item}`
+    });
+    window.dispatchEvent(hashChangeEvent);
   };
 
   // Initialize scroll-triggered navbar animation
@@ -81,18 +94,6 @@ const Navbar = () => {
       backgroundColor: 'rgba(255, 255, 255, 0.95)',
       backdropFilter: 'blur(10px)',
       boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
-      duration: 0.5,
-      scrollTrigger: {
-        trigger: document.body,
-        start: 'top -50',
-        end: 99999,
-        toggleActions: "play none none reverse"
-      }
-    });
-
-    // Hamburger menu color animation on scroll
-    gsap.to(".menu-bar1, .menu-bar2, .menu-bar3", {
-      backgroundColor: '#333',
       duration: 0.5,
       scrollTrigger: {
         trigger: document.body,
@@ -112,7 +113,8 @@ const Navbar = () => {
   useEffect(() => {
     if (!hamburgerMenuRef.current) return;
     
-    const bars = hamburgerMenuRef.current.children;
+    const circle = hamburgerMenuRef.current.querySelector('.menu-circle circle');
+    const bars = hamburgerMenuRef.current.querySelectorAll('.menu-bar');
     
     if (isMenuOpen) {
       // Rotate first bar
@@ -136,6 +138,21 @@ const Navbar = () => {
         rotation: 45,
         x: -9,
         y: -8,
+        duration: 0.4,
+        ease: 'power2.inOut'
+      });
+      
+      // Animate circle
+      gsap.to(circle, {
+        attr: { fill: '#ffffff' },
+        scale: 1.2,
+        duration: 0.4,
+        ease: 'power2.inOut'
+      });
+      
+      // Change bar colors to black for contrast on white circle
+      gsap.to(bars, {
+        backgroundColor: '#000000',
         duration: 0.4,
         ease: 'power2.inOut'
       });
@@ -164,6 +181,21 @@ const Navbar = () => {
         duration: 0.4,
         ease: 'power2.inOut'
       });
+      
+      // Reset circle
+      gsap.to(circle, {
+        attr: { fill: '#000000' },
+        scale: 1,
+        duration: 0.4,
+        ease: 'power2.inOut'
+      });
+      
+      // Reset bar colors to milky white for contrast on black circle
+      gsap.to(bars, {
+        backgroundColor: '#f8f8f8',
+        duration: 0.4,
+        ease: 'power2.inOut'
+      });
     }
   }, [isMenuOpen]);
 
@@ -183,37 +215,36 @@ const Navbar = () => {
           transition: all 0.3s ease;
         }
 
-        .logo {
-          position: fixed;
-          z-index: 2;
-          top: 1.5rem;
-          left: 1.5rem;
-          width: 120px;
-          height: auto;
-        }
-
         .hamburger-menu {
           position: fixed;
           top: 1rem;
           right: 2rem;
           z-index: 10;
           cursor: pointer;
+          width: 5rem;
+          height: 5rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
         }
 
-        .menu-bar1,
-        .menu-bar2,
-        .menu-bar3 {
-          width: 3.5rem;
-          height: 0.2rem;
-          opacity:50;
-          background-color: #a9a3a3ff;
-          margin: 0.8rem 0;
+        .menu-circle {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          z-index: 0;
+        }
+
+        .menu-bar {
+          width: 2.5rem;
+          height: 0.25rem;
+          background-color: #f8f8f8;
+          margin: 0.4rem 0;
           transition: background-color 0.5s ease;
-        }
-
-        .menu-bar2 {
-          width: 2rem;
-          margin-left: auto;
+          position: relative;
+          z-index: 1;
+          border-radius: 2px;
         }
 
         .overlay {
@@ -291,28 +322,29 @@ const Navbar = () => {
           .hamburger-menu {
             top: 0.5rem;
             right: 1rem;
+            width: 4rem;
+            height: 4rem;
           }
-          .logo {
-            top: 1rem;
-            left: 1rem;
-            width: 100px;
+          
+          .menu-bar {
+            width: 2rem;
+            height: 0.2rem;
           }
         }
       `}</style>
 
       <nav className="navbar">
-        <a href="#home">
-          <img src="/logo.png" alt="Logo" className="logo" />
-        </a>
-        
         <div 
           ref={hamburgerMenuRef}
           className="hamburger-menu" 
           onClick={toggleNav}
         >
-          <div className="menu-bar1"></div>
-          <div className="menu-bar2"></div>
-          <div className="menu-bar3"></div>
+          <svg className="menu-circle" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="50" fill="#000000" />
+          </svg>
+          <div className="menu-bar"></div>
+          <div className="menu-bar"></div>
+          <div className="menu-bar"></div>
         </div>
       </nav>
 
@@ -323,7 +355,7 @@ const Navbar = () => {
               <li 
                 key={index} 
                 ref={addToNavItemsRefs}
-                onClick={handleNavClick}
+                onClick={(e) => handleNavClick(item, e)}
               >
                 <a href={`#${item}`}>
                   {item.charAt(0).toUpperCase() + item.slice(1)}
