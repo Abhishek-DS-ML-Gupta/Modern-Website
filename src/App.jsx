@@ -98,7 +98,7 @@ export default function App() {
               texts={["React Bits", "Scroll Down"]}
           
               velocity={75}
-              className="custom-scroll-text text-[#333]"
+              className="custom-scroll-text text-white"
             />
           </div>
 
